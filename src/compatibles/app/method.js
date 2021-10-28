@@ -1,4 +1,5 @@
-import { showPoptip, domRect } from '@/compatibles/app/data'
+import { onMounted, nextTick } from '@vue/runtime-core'
+import { showPoptip, selection, domRect } from '@/compatibles/app/data'
 import {
   showEditingNote,
   noteContent,
@@ -74,4 +75,17 @@ export const selectionHandler = (event) => {
   // 選取範圍的 DOMRect
   const domRect = selObj.getRangeAt(0).getBoundingClientRect()
   showPoptipHandler(domRect)
+}
+
+export default function () {
+  onMounted(() => {
+    nextTick(() => {
+      selection.value.addEventListener('selectstart', () => {
+        document.addEventListener('selectionchange', selectionHandler)
+      })
+      selection.value.addEventListener('mouseleave', () => {
+        document.removeEventListener('selectionchange', selectionHandler)
+      })
+    })
+  })
 }

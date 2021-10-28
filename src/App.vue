@@ -1,21 +1,11 @@
 <script setup>
-  import { onMounted, nextTick } from '@vue/runtime-core'
   import { showPoptip, selection, domRect } from './compatibles/app/data'
-  import { selectionHandler } from './compatibles/app/method'
+  import method from './compatibles/app/method'
   import { poptipStyle } from './compatibles/poptip/data'
   import ScgComponent from './components/Svg.vue'
   import Poptip from './components/Poptip.vue'
 
-  onMounted(() => {
-    nextTick(() => {
-      selection.value.addEventListener('selectstart', () => {
-        document.addEventListener('selectionchange', selectionHandler)
-      })
-      selection.value.addEventListener('mouseleave', () => {
-        document.removeEventListener('selectionchange', selectionHandler)
-      })
-    })
-  })
+  method()
 </script>
 
 <template>
